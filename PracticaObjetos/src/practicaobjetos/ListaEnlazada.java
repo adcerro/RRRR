@@ -23,6 +23,18 @@ public class ListaEnlazada {
         tamaño++;
     }
 
+    public boolean existe(Persona per) {
+        Nodo p = ptr.link;
+        boolean exists = false;
+        while(p != null){
+            if (p.dato.getNombre().contentEquals(per.getNombre()) && p.dato.getApellido().contentEquals(per.getApellido()) && p.dato.getId() == per.getId() || p.dato.getId() == per.getId()) {
+                exists = true;
+            }
+            p = p.link;
+        }
+        return exists;
+    }
+
     public Persona obtener(int i) {
         if (i > tamaño) {
             throw new IndexOutOfBoundsException();

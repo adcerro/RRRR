@@ -407,8 +407,12 @@ public class MyFrame extends javax.swing.JFrame {
         }
         if (emptyFields == 0 && valid) {
             Empleado e1 = new Empleado(empName.getText(), empLname.getText(), Long.parseLong(empId.getText()), Integer.parseInt(empPay.getText()));
-            empStatus.setText("Añadido exitosamente");
-            elist.agregar(e1);
+            if (!elist.existe(e1)) {
+                empStatus.setText("Añadido exitosamente");
+                elist.agregar(e1);
+            } else {
+                empStatus.setText("Persona/ID ya existente");
+            }
         } else {
             empStatus.setText("Error");
         }
@@ -430,8 +434,12 @@ public class MyFrame extends javax.swing.JFrame {
         }
         if (emptyFields == 0 && valid) {
             Cliente cl = new Cliente(clientName.getText(), clientLname.getText(), Long.parseLong(clientId.getText()), Integer.parseInt(clientSold.getText()));
-            clientStatus.setText("Añadido exitosamente");
-            list.agregar(cl);
+            if (!list.existe(cl)) {
+                clientStatus.setText("Añadido exitosamente");
+                list.agregar(cl);
+            } else {
+                clientStatus.setText("Persona/ID ya existente ");
+            }
         } else {
             clientStatus.setText("Error");
         }

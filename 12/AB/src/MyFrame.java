@@ -34,14 +34,14 @@ public class MyFrame extends javax.swing.JFrame {
         }
         if (nodo.Hizq != null) {
             g.setColor(Color.blue);
-            g.setColor(Color.black);
             hIzq(g, x - space, y + space, x, y, space);
-            //Draw the left subtree 
+            g.setColor(Color.BLACK);
             drawTree(nodo.Hizq, x - space, y + space, g, space / 2);
         }
         if (nodo.Hder != null) {
-            g.setColor(Color.black);
+            g.setColor(Color.blue);
             hDer(g, x + space, y + space, x, y, space);
+            g.setColor(Color.BLACK);
             drawTree(nodo.Hder, x + space, y + space, g, space / 2);
         }
     }
@@ -154,7 +154,7 @@ public class MyFrame extends javax.swing.JFrame {
         if (valid != 0) {
             statusLabel.setText("Añadido");
             tree.insertaNodo(dataInt);
-            drawTree(tree.Raiz, 280, 20, panel.getGraphics(), 150);
+            drawTree(tree.Raiz, 280, 20, panel.getGraphics(), 140);
         }
     }//GEN-LAST:event_insertButtonActionPerformed
 
