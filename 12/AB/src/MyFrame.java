@@ -25,14 +25,43 @@ public class MyFrame extends javax.swing.JFrame {
         initComponents();
     }
 
-    public void drawTree(NodoB nodo, int x, int y, Graphics g) {
-        g.setColor(Color.black);
-        g.drawOval(x, y, 20, 20);
-        g.drawString(nodo.dato + "", x + 5, y + 15);
+    public void drawTree(NodoB nodo, int x, int y, Graphics g, int space) {
+        //https://coderanch.com/t/558985/java/Draw-binary-tree-structure
+        g.drawOval(x - 10, y - 10, 2 * 10, 2 * 10);
+        if (nodo != null) {
+            g.setColor(Color.black);
+            g.drawString(nodo.dato + "", x - 6, y + 4);
+        }
         if (nodo.Hizq != null) {
             g.setColor(Color.blue);
-            g.drawLine(x , x-15, y-15 , y);
+            g.setColor(Color.black);
+            hIzq(g, x - space, y + space, x, y, space);
+            //Draw the left subtree 
+            drawTree(nodo.Hizq, x - space, y + space, g, space / 2);
         }
+        if (nodo.Hder != null) {
+            g.setColor(Color.black);
+            hDer(g, x + space, y + space, x, y, space);
+            drawTree(nodo.Hder, x + space, y + space, g, space / 2);
+        }
+    }
+
+    private void hIzq(Graphics g, int x1, int y1, int x2, int y2, int space) {
+        double d = Math.sqrt(space * space + (x2 - x1) * (x2 - x1));
+        int x11 = (int) (x1 + 10 * (x2 - x1) / d);
+        int y11 = (int) (y1 - 10 * space / d);
+        int x21 = (int) (x2 - 10 * (x2 - x1) / d);
+        int y21 = (int) (y2 + 10 * space / d);
+        g.drawLine(x11, y11, x21, y21);
+    }
+
+    private void hDer(Graphics g, int x1, int y1, int x2, int y2, int space) {
+        double d = Math.sqrt(space * space + (x2 - x1) * (x2 - x1));
+        int x11 = (int) (x1 - 10 * (x1 - x2) / d);
+        int y11 = (int) (y1 - 10 * space / d);
+        int x21 = (int) (x2 + 10 * (x1 - x2) / d);
+        int y21 = (int) (y2 + 10 * space / d);
+        g.drawLine(x11, y11, x21, y21);
     }
 
     /**
@@ -50,6 +79,7 @@ public class MyFrame extends javax.swing.JFrame {
         statusLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
@@ -124,7 +154,7 @@ public class MyFrame extends javax.swing.JFrame {
         if (valid != 0) {
             statusLabel.setText("Añadido");
             tree.insertaNodo(dataInt);
-            drawTree(tree.Raiz, 280, 20, panel.getGraphics());
+            drawTree(tree.Raiz, 280, 20, panel.getGraphics(), 150);
         }
     }//GEN-LAST:event_insertButtonActionPerformed
 
