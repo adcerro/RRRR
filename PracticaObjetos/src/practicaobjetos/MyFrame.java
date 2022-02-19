@@ -125,6 +125,7 @@ public class MyFrame extends javax.swing.JFrame {
         seeClient.setBackground(new java.awt.Color(204, 255, 204));
 
         showList1.setText("Mostrar lista");
+        showList1.setFocusable(false);
         showList1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 showList1ActionPerformed(evt);
@@ -177,6 +178,7 @@ public class MyFrame extends javax.swing.JFrame {
         addClientPane.setBackground(new java.awt.Color(255, 255, 153));
 
         addClient.setText("Añadir");
+        addClient.setFocusable(false);
         addClient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addClientActionPerformed(evt);
@@ -254,6 +256,7 @@ public class MyFrame extends javax.swing.JFrame {
         addEmployee.setBackground(new java.awt.Color(255, 255, 153));
 
         addEmp.setText("Añadir");
+        addEmp.setFocusable(false);
         addEmp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addEmpActionPerformed(evt);
@@ -331,6 +334,7 @@ public class MyFrame extends javax.swing.JFrame {
         seeEmployee.setBackground(new java.awt.Color(204, 255, 204));
 
         showList.setText("Mostrar lista");
+        showList.setFocusable(false);
         showList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 showListActionPerformed(evt);
@@ -389,13 +393,20 @@ public class MyFrame extends javax.swing.JFrame {
     private void addEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEmpActionPerformed
 
         int emptyFields = 0;
+        boolean valid = true;
         for (JTextField fi : this.getFieldsFrom(addEmployee)) {
             if (fi.getText().isEmpty()) {
                 emptyFields++;
             }
         }
-        if (emptyFields == 0) {
-            Empleado e1 = new Empleado(empName.getText(), empLname.getText(), (long) Integer.parseInt(empId.getText()), Integer.parseInt(empPay.getText()));
+        try {
+            Long.parseLong(empId.getText());
+            Integer.parseInt(empPay.getText());
+        } catch (Exception e) {
+            valid = false;
+        }
+        if (emptyFields == 0 && valid) {
+            Empleado e1 = new Empleado(empName.getText(), empLname.getText(), Long.parseLong(empId.getText()), Integer.parseInt(empPay.getText()));
             empStatus.setText("Añadido exitosamente");
             elist.agregar(e1);
         } else {
@@ -410,8 +421,15 @@ public class MyFrame extends javax.swing.JFrame {
                 emptyFields++;
             }
         }
-        if (emptyFields == 0) {
-            Cliente cl = new Cliente(clientName.getText(), clientLname.getText(), (long) Integer.parseInt(clientId.getText()), Integer.parseInt(clientSold.getText()));
+        boolean valid = true;
+        try {
+            Long.parseLong(empId.getText());
+            Integer.parseInt(empPay.getText());
+        } catch (Exception e) {
+            valid = false;
+        }
+        if (emptyFields == 0 && valid) {
+            Cliente cl = new Cliente(clientName.getText(), clientLname.getText(), Long.parseLong(clientId.getText()), Integer.parseInt(clientSold.getText()));
             clientStatus.setText("Añadido exitosamente");
             list.agregar(cl);
         } else {

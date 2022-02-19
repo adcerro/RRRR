@@ -134,6 +134,7 @@
             <Component class="javax.swing.JButton" name="showList1">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Mostrar lista"/>
+                <Property name="focusable" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showList1ActionPerformed"/>
@@ -278,6 +279,7 @@
             <Component class="javax.swing.JButton" name="addClient">
               <Properties>
                 <Property name="text" type="java.lang.String" value="A&#xf1;adir"/>
+                <Property name="focusable" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addClientActionPerformed"/>
@@ -407,6 +409,7 @@
             <Component class="javax.swing.JButton" name="addEmp">
               <Properties>
                 <Property name="text" type="java.lang.String" value="A&#xf1;adir"/>
+                <Property name="focusable" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addEmpActionPerformed"/>
@@ -495,6 +498,7 @@
             <Component class="javax.swing.JButton" name="showList">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Mostrar lista"/>
+                <Property name="focusable" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showListActionPerformed"/>
