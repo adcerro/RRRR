@@ -423,8 +423,8 @@ public class MyFrame extends javax.swing.JFrame {
         }
         boolean valid = true;
         try {
-            Long.parseLong(empId.getText());
-            Integer.parseInt(empPay.getText());
+            Long.parseLong(clientId.getText());
+            Integer.parseInt(clientSold.getText());
         } catch (Exception e) {
             valid = false;
         }
