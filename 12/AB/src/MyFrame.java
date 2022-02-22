@@ -1,6 +1,7 @@
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,9 +15,6 @@ import java.awt.Graphics;
 public class MyFrame extends javax.swing.JFrame {
 
     private ABin tree = new ABin();
-    private int xCoor;
-    private int yCoor;
-    private NodoB previous;
 
     /**
      * Creates new form MyFrame
@@ -24,9 +22,16 @@ public class MyFrame extends javax.swing.JFrame {
     public MyFrame() {
         initComponents();
     }
+    int expansions = 1, firstX = 280, firstY = 20;
 
+    /**
+     * the following method
+     *
+     * @author sachin uptail
+     * https://coderanch.com/t/558985/java/Draw-binary-tree-structure
+     */
     public void drawTree(NodoB nodo, int x, int y, Graphics g, int space) {
-        //https://coderanch.com/t/558985/java/Draw-binary-tree-structure
+
         g.drawOval(x - 10, y - 10, 2 * 10, 2 * 10);
         if (nodo != null) {
             g.setColor(Color.black);
@@ -43,6 +48,13 @@ public class MyFrame extends javax.swing.JFrame {
             hDer(g, x + space, y + space, x, y, space);
             g.setColor(Color.BLACK);
             drawTree(nodo.Hder, x + space, y + space, g, space / 2);
+        }
+        if (x >= this.getSize().width - 20) {
+            this.setSize(this.getSize().width + 150, this.getSize().height + 150);
+            space = 140 + 25 * expansions;
+            expansions++;
+            firstX += 100;
+            drawTree(tree.Raiz, firstX, firstY, g, space);
         }
     }
 
@@ -73,24 +85,14 @@ public class MyFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         insertButton = new javax.swing.JButton();
         nodeField = new javax.swing.JTextField();
         statusLabel = new javax.swing.JLabel();
+        panel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
-
-        javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
-        panel.setLayout(panelLayout);
-        panelLayout.setHorizontalGroup(
-            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 588, Short.MAX_VALUE)
-        );
-        panelLayout.setVerticalGroup(
-            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 430, Short.MAX_VALUE)
-        );
 
         insertButton.setText("Insertar Elemento");
         insertButton.setFocusable(false);
@@ -106,42 +108,59 @@ public class MyFrame extends javax.swing.JFrame {
                 nodeFieldActionPerformed(evt);
             }
         });
+        nodeField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                nodeFieldKeyReleased(evt);
+            }
+        });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(insertButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(nodeField, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(statusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(155, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(10, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(statusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(insertButton)
+                        .addComponent(nodeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(insertButton)
-                    .addComponent(nodeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(statusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.SOUTH);
+
+        javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
+        panel.setLayout(panelLayout);
+        panelLayout.setHorizontalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 534, Short.MAX_VALUE)
         );
+        panelLayout.setVerticalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 419, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(panel, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void insertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertButtonActionPerformed
-
+        nodeAdder();
+    }//GEN-LAST:event_insertButtonActionPerformed
+    public void nodeAdder() {
         String data = nodeField.getText();
         int valid = 1;
         int dataInt = 0;
@@ -156,11 +175,16 @@ public class MyFrame extends javax.swing.JFrame {
             tree.insertaNodo(dataInt);
             drawTree(tree.Raiz, 280, 20, panel.getGraphics(), 140);
         }
-    }//GEN-LAST:event_insertButtonActionPerformed
-
+    }
     private void nodeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nodeFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nodeFieldActionPerformed
+
+    private void nodeFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nodeFieldKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            nodeAdder();
+        }
+    }//GEN-LAST:event_nodeFieldKeyReleased
 
     /**
      * @param args the command line arguments
@@ -199,6 +223,7 @@ public class MyFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton insertButton;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField nodeField;
     private javax.swing.JPanel panel;
     private javax.swing.JLabel statusLabel;
