@@ -73,9 +73,9 @@ public class ABin {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                //EliminarHoja();
                 frame.getPanel().repaint();
-                //frame.drawTree(Raiz, 300, 20, frame.getPanel().getGraphics(), 150);
+                frame.drawTree(Raiz, 300, 20, frame.getPanel().getGraphics(), 150);
+                EliminarHoja();
             }
         };
         timer.schedule(task, 0, 1500);

@@ -119,7 +119,7 @@ public class MyFrame extends javax.swing.JFrame {
     public void levelGetter() {
         int level = ((SpinnerNumberModel) levelSpinner.getModel()).getNumber().intValue();
         if (level > tree.altura(tree.Raiz) || level < 0) {
-            statusLabel.setText("Status: Level doesn't exist");
+            statusLabel.setText("Status: Nivel inexistente");
         } else {
             levelLabel.setText("Lista: " + tree.getNodesFromLevel(tree.Raiz, tree.Raiz, level));
             stringToList(tree.getNodesFromLevel(tree.Raiz, tree.Raiz, level));
@@ -322,19 +322,10 @@ public class MyFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_levelSpinnerKeyReleased
 
     private void destroyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_destroyButtonActionPerformed
-        final Timer timer = new Timer();
         if (tree.Raiz != null) {
-            TimerTask task = new TimerTask() {
-                @Override
-                public void run() {
-                    tree.EliminarHoja();
-                    panel.revalidate();
-                    drawTree(tree.Raiz, firstX, firstY, panel.getGraphics(), 150);
-                }
-            };
-            timer.schedule(task, 0, 1500);
+            tree.EliminarArbol();
         } else {
-            statusLabel.setText("Status: Eror, no existe arbol");
+            statusLabel.setText("Status: Error, no existe arbol");
         }
     }//GEN-LAST:event_destroyButtonActionPerformed
 
