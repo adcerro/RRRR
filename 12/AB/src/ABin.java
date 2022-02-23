@@ -2,45 +2,42 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- *
- * @author mathisa
- */
+
 public class ABin {
 
-    NodoB Padre;
-    NodoB Raiz;
+    NodoArbol Padre;
+    NodoArbol Raiz;
 
     //Constructor
     public ABin() {
         Raiz = null;
     }
 
-    private int getLevel(NodoB raiz, NodoB n) {
+    private int getLevel(NodoArbol raiz, NodoArbol n) {
         if (raiz == null) {
             return 0;
         } else if (raiz.dato == n.dato) {
             return 0;
         } else if (raiz.dato < n.dato) {
-            return 1 + getLevel(raiz.Hder, n);
+            return 1 + getLevel(raiz.der, n);
         } else {
-            return 1 + getLevel(raiz.Hizq, n);
+            return 1 + getLevel(raiz.izq, n);
         }
     }
 
-    public boolean contains(int Elem, NodoB A) {
+    public boolean contains(int Elem, NodoArbol A) {
         if (A == null) {
             return false;
         } else if (A.dato == Elem) {
             return true;
         } else if (Elem > A.dato) {
-            return contains(Elem, A.Hder);
+            return contains(Elem, A.der);
         } else {
-            return contains(Elem, A.Hizq);
+            return contains(Elem, A.izq);
         }
     }
 
-    public int getLevelOf(NodoB raiz, NodoB node) {
+    public int getLevelOf(NodoArbol raiz, NodoArbol node) {
         if (this.contains(node.dato, raiz)) {
             return this.getLevel(raiz, node);
         } else {
@@ -48,155 +45,72 @@ public class ABin {
         }
     }
 
-    public String getNodesFromLevel(NodoB raiz, NodoB iterator, int level) {
+    public String getNodesFromLevel(NodoArbol raiz, NodoArbol iterator, int level) {
         if (raiz == null) {
             return "";
         } else if (getLevelOf(raiz, iterator) == level) {
-            return iterator.dato+"";
+            return iterator.dato + "";
         } else if (getLevelOf(raiz, iterator) < level) {
-            return "" + getNodesFromLevel(raiz, iterator.Hizq, level) + "->" + getNodesFromLevel(raiz, iterator.Hder, level);
+            return "" + getNodesFromLevel(raiz, iterator.izq, level) + "->" + getNodesFromLevel(raiz, iterator.der, level);
         } else {
             return "";
         }
     }
 
     //Insercion de un elemento en el arbol
-    public void insertaNodo(int Elem) {
+    public void insertarNodo(int Elem) {
         if (Raiz == null) {
-            Raiz = new NodoB(Elem);
+            Raiz = new NodoArbol(Elem, 0, null, null);
         } else {
             Raiz.insertar(Elem);
         }
     }
 
-    //Escribir arbol
-    public void escribir(NodoB Nodo) {
-        if (Nodo == null) {
-            return;
+    public NodoArbol buscarTio(int dato) {
+        if (Raiz == null) {
+            return null;
         } else {
-            System.out.print(Nodo.dato + " ");
-            escribir(Nodo.Hizq);
-            escribir(Nodo.Hder);
+            return Raiz.buscar(dato);
         }
     }
 
-    //Preorden Recursivo del arbol
-    public void preorden(NodoB Nodo) {
-        if (Nodo == null) {
+    public void CrearLista(NodoArbol nodo, int nivel, ListaEnlazada lis) {
+        if (nodo == null) {
             return;
         } else {
-            System.out.print(Nodo.dato + " ");
-            preorden(Nodo.Hizq);
-            preorden(Nodo.Hder);
-        }
-    }
-
-    //PostOrden recursivo del arbol
-    public void postOrden(NodoB Nodo) {
-        if (Nodo == null) {
-            return;
-        } else {
-            postOrden(Nodo.Hizq);
-            postOrden(Nodo.Hder);
-            System.out.print(Nodo.dato + " ");
+            if (nodo.nivel == nivel) {
+                lis.insertarNodo(nodo.dato);
+            }
+            CrearLista(nodo.izq, nivel, lis);
+            CrearLista(nodo.der, nivel, lis);
         }
     }
 
     //Inorden Recursivo del arbol
-    public void inorden(NodoB Nodo) {
-        if (Nodo == null) {
-            return;
-        } else {
-            inorden(Nodo.Hizq);
-            System.out.print(Nodo.dato + " ");
-            inorden(Nodo.Hder);
-        }
-    }
-
 //cantidad de niveles que posee el arbol
-    public int altura(NodoB Nodo) {
+    public int altura(NodoArbol Nodo) {
         if (Nodo == null) {
             return -1;
         } else {
-            return 1 + Math.max(altura(Nodo.Hizq), altura(Nodo.Hder));
-        }
-    }
-//cantidad de nodos que posee el arbol	
-
-    public int tamaño(NodoB Nodo) {
-        if (Nodo == null) {
-            return 0;
-        } else {
-            return 1 + tamaño(Nodo.Hizq) + tamaño(Nodo.Hder);
+            return 1 + Math.max(altura(Nodo.izq), altura(Nodo.der));
         }
     }
 
 //cantidad de nodos hojas que posee el arbol	
-    public int hojas(NodoB Nodo) {
+    public int hojas(NodoArbol Nodo) {
         if (Nodo == null) {
             return 0;
-        } else if (Nodo.Hizq == null && Nodo.Hder == null) {
+        } else if (Nodo.izq == null && Nodo.der == null) {
             return 1;
         } else {
-            return hojas(Nodo.Hizq) + hojas(Nodo.Hder);
+            return hojas(Nodo.izq) + hojas(Nodo.der);
         }
     }
 
     //cantidad de nodos completos que posee el arbol	
-    public int completos(NodoB Nodo) {
-        int cont = 0;
-        if (Nodo != null) {
-            cont = completos(Nodo.Hizq) + completos(Nodo.Hder);
-            if (Nodo.Hizq != null && Nodo.Hder != null) {
-                cont = cont + 1;
-            }
-        }
-        return cont;
-    }
-
-//Busca un elemento en el arbol
-    public void buscar(int Elem, NodoB A) {
-        if (A == null) {
-            System.out.println("Nodo no encontrado ");
-        } else if (A.dato == Elem) {
-            System.out.println("Nodo encontrado ");
-        } else if (Elem > A.dato) {
-            buscar(Elem, A.Hder);
-        } else {
-            buscar(Elem, A.Hizq);
-        }
-    }
-
     public static void main(String[] args) {
         MyFrame frame = new MyFrame();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-//        ABin A = new ABin();
-//        Scanner sc = new Scanner(System.in);
-//        int m = 1, i = 1;
-//        while (m == 1) {
-//            System.out.print("Digite información numérica del nodo " + i + ":");
-//            int n = sc.nextInt();
-//            A.insertaNodo(n);
-//            System.out.print("Desea insertar mas nodos?: (1:Si, 2:No: ");
-//            m = sc.nextInt();
-//            i = i + 1;
-//        }
-//        System.out.println("Digite el nivel de los nodos que desea ver");
-//        int a =sc.nextInt();
-//        System.out.println(A.getNodesFromLevel(A.Raiz, A.Raiz, a));
-        /* System.out.print("El recorrido en Preorden
-         * es: "); A.preorden(A.Raiz); System.out.println();
-         * System.out.print("El recorrido en Inorden es: "); A.inorden(A.Raiz);
-         * System.out.println(); System.out.print("El recorrido en Postorden es:
-         * "); A.postOrden(A.Raiz); System.out.println(); System.out.println("La
-         * altura del arbol es: " + A.altura(A.Raiz)); System.out.println("La
-         * cantidad de \"nodos\" que posee el arbol es: " + A.tamaño(A.Raiz));
-         * System.out.println("La cantidad de \"nodos hoja\" que posee el arbol
-         * es: " + A.hojas(A.Raiz)); System.out.println("La cantidad de \"nodos
-         * completos\" que posee el arbol es: " + A.completos(A.Raiz));
-         * System.out.print("Digite información numérica del nodo a buscar: ");
-         * int nn = sc.nextInt(); A.buscar(nn, A.Raiz);*
-         */
     }
 }

@@ -25,16 +25,19 @@ public class MyFrame extends javax.swing.JFrame {
         initComponents();
     }
 
-    public void treeKiller(NodoB Nodo, NodoB raiz) {
+    public void treeKiller(NodoArbol Nodo, NodoArbol raiz) {
         if (Nodo == null) {
-            return;
-        } else if (Nodo.Hizq.Hizq != null) {
-            treeKiller(Nodo.Hizq, raiz);
-        } else if (Nodo.Hder.Hder != null) {
-            treeKiller(Nodo.Hder, raiz);
+            statusLabel.setText("Arbol vacio");
+        } else if (Nodo.izq != null) {
+            if (Nodo.izq.izq != null) {
+                treeKiller(Nodo.izq, raiz);
+            }
+        } else if (Nodo.der != null) {
+            if (Nodo.der.der != null) {
+                treeKiller(Nodo.der, raiz);
+            }
         } else {
-            Nodo.Hder = null;
-            Nodo.Hizq = null;
+            Nodo = null;
             drawTree(tree.Raiz, 280, 20, panel.getGraphics(), 140);
             treeKiller(raiz, raiz);
         }
@@ -49,24 +52,24 @@ public class MyFrame extends javax.swing.JFrame {
      * @author sachin uptail
      * https://coderanch.com/t/558985/java/Draw-binary-tree-structure
      */
-    public void drawTree(NodoB nodo, int x, int y, Graphics g, int space) {
+    public void drawTree(NodoArbol nodo, int x, int y, Graphics g, int space) {
 
         g.drawOval(x - 10, y - 10, 2 * 10, 2 * 10);
         if (nodo != null) {
             g.setColor(Color.black);
             g.drawString(nodo.dato + "", x - 6, y + 4);
         }
-        if (nodo.Hizq != null) {
+        if (nodo.izq != null) {
             g.setColor(Color.blue);
             hIzq(g, x - space, y + space, x, y, space);
             g.setColor(Color.BLACK);
-            drawTree(nodo.Hizq, x - space, y + space, g, space / 2);
+            drawTree(nodo.izq, x - space, y + space, g, space / 2);
         }
-        if (nodo.Hder != null) {
+        if (nodo.der != null) {
             g.setColor(Color.blue);
             hDer(g, x + space, y + space, x, y, space);
             g.setColor(Color.BLACK);
-            drawTree(nodo.Hder, x + space, y + space, g, space / 2);
+            drawTree(nodo.der, x + space, y + space, g, space / 2);
         }
         if (x >= this.getSize().width - 20) {
             this.setSize(this.getSize().width + 150, this.getSize().height + 150);
@@ -118,8 +121,11 @@ public class MyFrame extends javax.swing.JFrame {
         statusLabel = new javax.swing.JLabel();
         levelButton = new javax.swing.JButton();
         levelSpinner = new javax.swing.JSpinner();
-        levelField = new javax.swing.JLabel();
+        levelLabel = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        uncleButton = new javax.swing.JButton();
+        uncleField = new javax.swing.JTextField();
+        uncleLabel = new javax.swing.JLabel();
         panel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -140,23 +146,41 @@ public class MyFrame extends javax.swing.JFrame {
             }
         });
 
-        levelButton.setText("Get nodes from level");
+        statusLabel.setText("Status:");
+        statusLabel.setToolTipText("");
+
+        levelButton.setText("Obtener nodos del nivel");
         levelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 levelButtonActionPerformed(evt);
             }
         });
 
+        levelSpinner.setToolTipText("Please, pick a level from the tree (starting from 0)");
         levelSpinner.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 levelSpinnerKeyReleased(evt);
             }
         });
 
-        jButton1.setText("Tree Killer");
+        jButton1.setText("Destruir arbol");
+        jButton1.setFocusable(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        uncleButton.setText("Encontrar tio");
+        uncleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                uncleButtonActionPerformed(evt);
+            }
+        });
+
+        uncleField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                uncleFieldKeyReleased(evt);
             }
         });
 
@@ -166,20 +190,29 @@ public class MyFrame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(levelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(insertButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(nodeField, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
-                    .addComponent(levelSpinner))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(uncleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(levelButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(insertButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(statusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(levelField, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(nodeField, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                            .addComponent(levelSpinner)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(uncleField)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(uncleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                        .addGap(2, 2, 2)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(statusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                        .addComponent(levelLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,9 +226,18 @@ public class MyFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(levelButton)
                     .addComponent(levelSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(levelField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(levelLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(uncleButton)
+                            .addComponent(uncleField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(3, 3, 3)
+                            .addComponent(uncleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jButton1))
+                .addContainerGap())
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.SOUTH);
@@ -204,11 +246,11 @@ public class MyFrame extends javax.swing.JFrame {
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 534, Short.MAX_VALUE)
+            .addGap(0, 607, Short.MAX_VALUE)
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 406, Short.MAX_VALUE)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
 
         getContentPane().add(panel, java.awt.BorderLayout.CENTER);
@@ -226,12 +268,16 @@ public class MyFrame extends javax.swing.JFrame {
         try {
             dataInt = Integer.parseInt(data);
         } catch (Exception e) {
-            statusLabel.setText("Dato no aceptado");
+            statusLabel.setText("Status: Dato no aceptado");
+            valid = 0;
+        }
+        if (tree.contains(Integer.parseInt(data), tree.Raiz)) {
+            statusLabel.setText("Status: Dato ya existente");
             valid = 0;
         }
         if (valid != 0) {
-            statusLabel.setText("Añadido");
-            tree.insertaNodo(dataInt);
+            statusLabel.setText("Status: Añadido");
+            tree.insertarNodo(dataInt);
             drawTree(tree.Raiz, 280, 20, panel.getGraphics(), 140);
         }
     }
@@ -247,12 +293,32 @@ public class MyFrame extends javax.swing.JFrame {
     public void levelGetter() {
         int level = ((SpinnerNumberModel) levelSpinner.getModel()).getNumber().intValue();
         if (level > tree.altura(tree.Raiz) || level < 0) {
-            levelField.setText("Level doesn't exist");
+            statusLabel.setText("Status: Level doesn't exist");
         } else {
-            levelField.setText(tree.getNodesFromLevel(tree.Raiz, tree.Raiz, level));
+            levelLabel.setText("Lista: " + tree.getNodesFromLevel(tree.Raiz, tree.Raiz, level));
             stringToList(tree.getNodesFromLevel(tree.Raiz, tree.Raiz, level));
         }
 
+    }
+
+    public void uncleFinder() {
+        String data = uncleField.getText();
+        int valid = 1;
+        int dataInt = 0;
+        try {
+            dataInt = Integer.parseInt(data);
+        } catch (Exception e) {
+            statusLabel.setText("Status: Dato no aceptado");
+            valid = 0;
+        }
+        if (!tree.contains(Integer.parseInt(data), tree.Raiz)) {
+            statusLabel.setText("Status: Dato inexistente");
+            valid = 0;
+        }
+        if (valid != 0) {
+            int elem = tree.buscarTio(dataInt).dato;
+            uncleLabel.setText("Tio: "+elem);
+        }
     }
     private void nodeFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nodeFieldKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -271,8 +337,18 @@ public class MyFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_levelSpinnerKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       treeKiller(tree.Raiz,tree.Raiz);
+        treeKiller(tree.Raiz, tree.Raiz);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void uncleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uncleButtonActionPerformed
+        uncleFinder();
+    }//GEN-LAST:event_uncleButtonActionPerformed
+
+    private void uncleFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_uncleFieldKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            uncleFinder();
+        }
+    }//GEN-LAST:event_uncleFieldKeyReleased
 
     /**
      * @param args the command line arguments
@@ -314,10 +390,13 @@ public class MyFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton levelButton;
-    private javax.swing.JLabel levelField;
+    private javax.swing.JLabel levelLabel;
     private javax.swing.JSpinner levelSpinner;
     private javax.swing.JTextField nodeField;
     private javax.swing.JPanel panel;
     private javax.swing.JLabel statusLabel;
+    private javax.swing.JButton uncleButton;
+    private javax.swing.JTextField uncleField;
+    private javax.swing.JLabel uncleLabel;
     // End of variables declaration//GEN-END:variables
 }
