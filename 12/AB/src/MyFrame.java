@@ -15,7 +15,7 @@ import javax.swing.SpinnerNumberModel;
  * @author adcerro
  */
 public class MyFrame extends javax.swing.JFrame {
-    
+
     private ABin tree = new ABin();
 
     /**
@@ -34,7 +34,7 @@ public class MyFrame extends javax.swing.JFrame {
      * https://coderanch.com/t/558985/java/Draw-binary-tree-structure
      */
     public void drawTree(NodoB nodo, int x, int y, Graphics g, int space) {
-        
+
         g.drawOval(x - 10, y - 10, 2 * 10, 2 * 10);
         if (nodo != null) {
             g.setColor(Color.black);
@@ -213,14 +213,24 @@ public class MyFrame extends javax.swing.JFrame {
             drawTree(tree.Raiz, 280, 20, panel.getGraphics(), 140);
         }
     }
-    
+
+    public void stringToList(String str) {
+        ListaEnlazada list = new ListaEnlazada();
+        String[] vec = str.split("->");
+        for (int i = 0; i < vec.length; i++) {
+            list.insertarNodo(Integer.parseInt(vec[i]));
+        }
+    }
+
     public void levelGetter() {
         int level = ((SpinnerNumberModel) levelSpinner.getModel()).getNumber().intValue();
-        if (level > tree.altura(tree.Raiz)||level <0) {
+        if (level > tree.altura(tree.Raiz) || level < 0) {
             levelField.setText("Level doesn't exist");
         } else {
             levelField.setText(tree.getNodesFromLevel(tree.Raiz, tree.Raiz, level));
+            stringToList(tree.getNodesFromLevel(tree.Raiz, tree.Raiz, level));
         }
+
     }
     private void nodeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nodeFieldActionPerformed
         // TODO add your handling code here:
