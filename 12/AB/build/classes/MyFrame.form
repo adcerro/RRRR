@@ -59,7 +59,7 @@
                       <Group type="102" attributes="0">
                           <Component id="uncleLabel" pref="147" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                          <Component id="jButton1" min="-2" pref="139" max="-2" attributes="0"/>
+                          <Component id="destroyButton" min="-2" pref="139" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="statusLabel" pref="288" max="32767" attributes="0"/>
@@ -98,7 +98,7 @@
                               <Component id="uncleLabel" max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="destroyButton" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -147,13 +147,13 @@
         </Component>
         <Component class="javax.swing.JLabel" name="levelLabel">
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="destroyButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Destruir arbol"/>
             <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="destroyButtonActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="uncleButton">

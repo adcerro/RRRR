@@ -1,7 +1,8 @@
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ABin {
 
@@ -63,6 +64,26 @@ public class ABin {
             Raiz = new NodoArbol(Elem, 0, null, null);
         } else {
             Raiz.insertar(Elem);
+        }
+    }
+    Timer timer;
+
+    public void EliminarArbol() {
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                EliminarHoja();
+            }
+        };
+        timer.schedule(task, 0, 1000);
+    }
+
+    public void EliminarHoja() {
+        if (Raiz == null) {
+            timer.cancel();
+        } else {
+            Raiz = Raiz.eliminarHoja();
+            System.out.println("Hoja eliminada");
         }
     }
 

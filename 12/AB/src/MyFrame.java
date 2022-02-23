@@ -24,26 +24,7 @@ public class MyFrame extends javax.swing.JFrame {
     public MyFrame() {
         initComponents();
     }
-
-    public void treeKiller(NodoArbol Nodo, NodoArbol raiz) {
-        if (Nodo == null) {
-            statusLabel.setText("Arbol vacio");
-        } else if (Nodo.izq != null) {
-            if (Nodo.izq.izq != null) {
-                treeKiller(Nodo.izq, raiz);
-            }
-        } else if (Nodo.der != null) {
-            if (Nodo.der.der != null) {
-                treeKiller(Nodo.der, raiz);
-            }
-        } else {
-            Nodo = null;
-            drawTree(tree.Raiz, 280, 20, panel.getGraphics(), 140);
-            treeKiller(raiz, raiz);
-        }
-
-    }
-    int expansions = 1, firstX = 280, firstY = 20;
+    int expansions = 1, firstX = 300, firstY = 20;
 
     /**
      * the following method draws a tree given it's starting position, the root
@@ -106,6 +87,66 @@ public class MyFrame extends javax.swing.JFrame {
         g.drawLine(x11, y11, x21, y21);
     }
 
+    public void nodeAdder() {
+        String data = nodeField.getText();
+        int valid = 1;
+        int dataInt = 0;
+        try {
+            dataInt = Integer.parseInt(data);
+        } catch (Exception e) {
+            statusLabel.setText("Status: Dato no aceptado");
+            valid = 0;
+        }
+        if (tree.contains(Integer.parseInt(data), tree.Raiz)) {
+            statusLabel.setText("Status: Dato ya existente");
+            valid = 0;
+        }
+        if (valid != 0) {
+            statusLabel.setText("Status: Añadido");
+            tree.insertarNodo(dataInt);
+            drawTree(tree.Raiz, firstX, firstY, panel.getGraphics(), 150);
+        }
+    }
+
+    public void stringToList(String str) {
+        ListaEnlazada list = new ListaEnlazada();
+        String[] vec = str.split("->");
+        for (int i = 0; i < vec.length; i++) {
+            list.insertarNodo(Integer.parseInt(vec[i]));
+        }
+    }
+
+    public void levelGetter() {
+        int level = ((SpinnerNumberModel) levelSpinner.getModel()).getNumber().intValue();
+        if (level > tree.altura(tree.Raiz) || level < 0) {
+            statusLabel.setText("Status: Level doesn't exist");
+        } else {
+            levelLabel.setText("Lista: " + tree.getNodesFromLevel(tree.Raiz, tree.Raiz, level));
+            stringToList(tree.getNodesFromLevel(tree.Raiz, tree.Raiz, level));
+        }
+
+    }
+
+    public void uncleFinder() {
+        String data = uncleField.getText();
+        int valid = 1;
+        int dataInt = 0;
+        try {
+            dataInt = Integer.parseInt(data);
+        } catch (Exception e) {
+            statusLabel.setText("Status: Dato no aceptado");
+            valid = 0;
+        }
+        if (!tree.contains(Integer.parseInt(data), tree.Raiz)) {
+            statusLabel.setText("Status: Dato inexistente");
+            valid = 0;
+        }
+        if (valid != 0) {
+            int elem = tree.buscarTio(dataInt).dato;
+            uncleLabel.setText("Tio: " + elem);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -122,7 +163,7 @@ public class MyFrame extends javax.swing.JFrame {
         levelButton = new javax.swing.JButton();
         levelSpinner = new javax.swing.JSpinner();
         levelLabel = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        destroyButton = new javax.swing.JButton();
         uncleButton = new javax.swing.JButton();
         uncleField = new javax.swing.JTextField();
         uncleLabel = new javax.swing.JLabel();
@@ -163,11 +204,11 @@ public class MyFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Destruir arbol");
-        jButton1.setFocusable(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        destroyButton.setText("Destruir arbol");
+        destroyButton.setFocusable(false);
+        destroyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                destroyButtonActionPerformed(evt);
             }
         });
 
@@ -208,7 +249,7 @@ public class MyFrame extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(uncleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
                         .addGap(2, 2, 2)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(destroyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(statusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
                         .addComponent(levelLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -236,7 +277,7 @@ public class MyFrame extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGap(3, 3, 3)
                             .addComponent(uncleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jButton1))
+                    .addComponent(destroyButton))
                 .addContainerGap())
         );
 
@@ -260,69 +301,13 @@ public class MyFrame extends javax.swing.JFrame {
 
     private void insertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertButtonActionPerformed
         nodeAdder();
+        nodeField.setText("");
     }//GEN-LAST:event_insertButtonActionPerformed
-    public void nodeAdder() {
-        String data = nodeField.getText();
-        int valid = 1;
-        int dataInt = 0;
-        try {
-            dataInt = Integer.parseInt(data);
-        } catch (Exception e) {
-            statusLabel.setText("Status: Dato no aceptado");
-            valid = 0;
-        }
-        if (tree.contains(Integer.parseInt(data), tree.Raiz)) {
-            statusLabel.setText("Status: Dato ya existente");
-            valid = 0;
-        }
-        if (valid != 0) {
-            statusLabel.setText("Status: Añadido");
-            tree.insertarNodo(dataInt);
-            drawTree(tree.Raiz, 280, 20, panel.getGraphics(), 140);
-        }
-    }
 
-    public void stringToList(String str) {
-        ListaEnlazada list = new ListaEnlazada();
-        String[] vec = str.split("->");
-        for (int i = 0; i < vec.length; i++) {
-            list.insertarNodo(Integer.parseInt(vec[i]));
-        }
-    }
-
-    public void levelGetter() {
-        int level = ((SpinnerNumberModel) levelSpinner.getModel()).getNumber().intValue();
-        if (level > tree.altura(tree.Raiz) || level < 0) {
-            statusLabel.setText("Status: Level doesn't exist");
-        } else {
-            levelLabel.setText("Lista: " + tree.getNodesFromLevel(tree.Raiz, tree.Raiz, level));
-            stringToList(tree.getNodesFromLevel(tree.Raiz, tree.Raiz, level));
-        }
-
-    }
-
-    public void uncleFinder() {
-        String data = uncleField.getText();
-        int valid = 1;
-        int dataInt = 0;
-        try {
-            dataInt = Integer.parseInt(data);
-        } catch (Exception e) {
-            statusLabel.setText("Status: Dato no aceptado");
-            valid = 0;
-        }
-        if (!tree.contains(Integer.parseInt(data), tree.Raiz)) {
-            statusLabel.setText("Status: Dato inexistente");
-            valid = 0;
-        }
-        if (valid != 0) {
-            int elem = tree.buscarTio(dataInt).dato;
-            uncleLabel.setText("Tio: "+elem);
-        }
-    }
     private void nodeFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nodeFieldKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             nodeAdder();
+            nodeField.setText("");
         }
     }//GEN-LAST:event_nodeFieldKeyReleased
 
@@ -336,17 +321,20 @@ public class MyFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_levelSpinnerKeyReleased
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        treeKiller(tree.Raiz, tree.Raiz);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void destroyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_destroyButtonActionPerformed
+        tree.EliminarArbol();
+        //drawTree(tree.Raiz, firstX, firstY, panel.getGraphics(), 150);
+    }//GEN-LAST:event_destroyButtonActionPerformed
 
     private void uncleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uncleButtonActionPerformed
         uncleFinder();
+        uncleField.setText("");
     }//GEN-LAST:event_uncleButtonActionPerformed
 
     private void uncleFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_uncleFieldKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             uncleFinder();
+            uncleField.setText("");
         }
     }//GEN-LAST:event_uncleFieldKeyReleased
 
@@ -386,8 +374,8 @@ public class MyFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton destroyButton;
     private javax.swing.JButton insertButton;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton levelButton;
     private javax.swing.JLabel levelLabel;
