@@ -320,10 +320,16 @@ public class MyFrame extends javax.swing.JFrame {
             levelGetter();
         }
     }//GEN-LAST:event_levelSpinnerKeyReleased
-
+    public void paintComponent(Graphics g) {
+        drawTree(tree.Raiz, firstX, firstY, g, 150);
+    }
     private void destroyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_destroyButtonActionPerformed
         if (tree.Raiz != null) {
-            tree.EliminarArbol();
+            while (tree.hojas(tree.Raiz) != 0) {
+                panel.repaint();
+                paint(panel.getGraphics());
+                tree.EliminarHoja();
+            }
         } else {
             statusLabel.setText("Status: Error, no existe arbol");
         }

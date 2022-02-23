@@ -110,7 +110,6 @@ public class ABin {
         }
     }
 
-    //Inorden Recursivo del arbol
 //cantidad de niveles que posee el arbol
     public int altura(NodoArbol Nodo) {
         if (Nodo == null) {
