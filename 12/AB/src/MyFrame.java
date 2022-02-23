@@ -24,6 +24,22 @@ public class MyFrame extends javax.swing.JFrame {
     public MyFrame() {
         initComponents();
     }
+
+    public void treeKiller(NodoB Nodo, NodoB raiz) {
+        if (Nodo == null) {
+            return;
+        } else if (Nodo.Hizq.Hizq != null) {
+            treeKiller(Nodo.Hizq, raiz);
+        } else if (Nodo.Hder.Hder != null) {
+            treeKiller(Nodo.Hder, raiz);
+        } else {
+            Nodo.Hder = null;
+            Nodo.Hizq = null;
+            drawTree(tree.Raiz, 280, 20, panel.getGraphics(), 140);
+            treeKiller(raiz, raiz);
+        }
+
+    }
     int expansions = 1, firstX = 280, firstY = 20;
 
     /**
@@ -103,6 +119,7 @@ public class MyFrame extends javax.swing.JFrame {
         levelButton = new javax.swing.JButton();
         levelSpinner = new javax.swing.JSpinner();
         levelField = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         panel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -117,11 +134,6 @@ public class MyFrame extends javax.swing.JFrame {
         });
 
         nodeField.setToolTipText("Type a number here");
-        nodeField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nodeFieldActionPerformed(evt);
-            }
-        });
         nodeField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 nodeFieldKeyReleased(evt);
@@ -141,6 +153,13 @@ public class MyFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Tree Killer");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -148,8 +167,10 @@ public class MyFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(levelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(insertButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(levelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(insertButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(nodeField, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
@@ -173,7 +194,8 @@ public class MyFrame extends javax.swing.JFrame {
                     .addComponent(levelButton)
                     .addComponent(levelSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(levelField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.SOUTH);
@@ -186,7 +208,7 @@ public class MyFrame extends javax.swing.JFrame {
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 401, Short.MAX_VALUE)
+            .addGap(0, 406, Short.MAX_VALUE)
         );
 
         getContentPane().add(panel, java.awt.BorderLayout.CENTER);
@@ -232,10 +254,6 @@ public class MyFrame extends javax.swing.JFrame {
         }
 
     }
-    private void nodeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nodeFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nodeFieldActionPerformed
-
     private void nodeFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nodeFieldKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             nodeAdder();
@@ -251,6 +269,10 @@ public class MyFrame extends javax.swing.JFrame {
             levelGetter();
         }
     }//GEN-LAST:event_levelSpinnerKeyReleased
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       treeKiller(tree.Raiz,tree.Raiz);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -289,6 +311,7 @@ public class MyFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton insertButton;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton levelButton;
     private javax.swing.JLabel levelField;
