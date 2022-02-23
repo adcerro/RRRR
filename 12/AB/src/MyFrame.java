@@ -2,6 +2,8 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,7 +15,7 @@ import java.awt.event.KeyEvent;
  * @author adcerro
  */
 public class MyFrame extends javax.swing.JFrame {
-
+    
     private ABin tree = new ABin();
 
     /**
@@ -25,13 +27,14 @@ public class MyFrame extends javax.swing.JFrame {
     int expansions = 1, firstX = 280, firstY = 20;
 
     /**
-     * the following method
+     * the following method draws a tree given it's starting position, the root
+     * and the space in between nodes
      *
      * @author sachin uptail
      * https://coderanch.com/t/558985/java/Draw-binary-tree-structure
      */
     public void drawTree(NodoB nodo, int x, int y, Graphics g, int space) {
-
+        
         g.drawOval(x - 10, y - 10, 2 * 10, 2 * 10);
         if (nodo != null) {
             g.setColor(Color.black);
@@ -58,6 +61,10 @@ public class MyFrame extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * @author sachin uptail
+     * https://coderanch.com/t/558985/java/Draw-binary-tree-structure
+     */
     private void hIzq(Graphics g, int x1, int y1, int x2, int y2, int space) {
         double d = Math.sqrt(space * space + (x2 - x1) * (x2 - x1));
         int x11 = (int) (x1 + 10 * (x2 - x1) / d);
@@ -67,6 +74,10 @@ public class MyFrame extends javax.swing.JFrame {
         g.drawLine(x11, y11, x21, y21);
     }
 
+    /**
+     * @author sachin uptail
+     * https://coderanch.com/t/558985/java/Draw-binary-tree-structure
+     */
     private void hDer(Graphics g, int x1, int y1, int x2, int y2, int space) {
         double d = Math.sqrt(space * space + (x2 - x1) * (x2 - x1));
         int x11 = (int) (x1 - 10 * (x1 - x2) / d);
@@ -89,6 +100,9 @@ public class MyFrame extends javax.swing.JFrame {
         insertButton = new javax.swing.JButton();
         nodeField = new javax.swing.JTextField();
         statusLabel = new javax.swing.JLabel();
+        levelButton = new javax.swing.JButton();
+        levelSpinner = new javax.swing.JSpinner();
+        levelField = new javax.swing.JLabel();
         panel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -114,28 +128,51 @@ public class MyFrame extends javax.swing.JFrame {
             }
         });
 
+        levelButton.setText("Get nodes from level");
+        levelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                levelButtonActionPerformed(evt);
+            }
+        });
+
+        levelSpinner.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                levelSpinnerKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(insertButton)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(levelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(insertButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(nodeField, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(statusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(nodeField, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                    .addComponent(levelSpinner))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(statusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(levelField, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(10, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(statusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(insertButton)
-                        .addComponent(nodeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(nodeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(statusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(levelButton)
+                    .addComponent(levelSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(levelField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -149,7 +186,7 @@ public class MyFrame extends javax.swing.JFrame {
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 419, Short.MAX_VALUE)
+            .addGap(0, 401, Short.MAX_VALUE)
         );
 
         getContentPane().add(panel, java.awt.BorderLayout.CENTER);
@@ -176,6 +213,15 @@ public class MyFrame extends javax.swing.JFrame {
             drawTree(tree.Raiz, 280, 20, panel.getGraphics(), 140);
         }
     }
+    
+    public void levelGetter() {
+        int level = ((SpinnerNumberModel) levelSpinner.getModel()).getNumber().intValue();
+        if (level > tree.altura(tree.Raiz)||level <0) {
+            levelField.setText("Level doesn't exist");
+        } else {
+            levelField.setText(tree.getNodesFromLevel(tree.Raiz, tree.Raiz, level));
+        }
+    }
     private void nodeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nodeFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nodeFieldActionPerformed
@@ -185,6 +231,16 @@ public class MyFrame extends javax.swing.JFrame {
             nodeAdder();
         }
     }//GEN-LAST:event_nodeFieldKeyReleased
+
+    private void levelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_levelButtonActionPerformed
+        levelGetter();
+    }//GEN-LAST:event_levelButtonActionPerformed
+
+    private void levelSpinnerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_levelSpinnerKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            levelGetter();
+        }
+    }//GEN-LAST:event_levelSpinnerKeyReleased
 
     /**
      * @param args the command line arguments
@@ -224,6 +280,9 @@ public class MyFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton insertButton;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton levelButton;
+    private javax.swing.JLabel levelField;
+    private javax.swing.JSpinner levelSpinner;
     private javax.swing.JTextField nodeField;
     private javax.swing.JPanel panel;
     private javax.swing.JLabel statusLabel;

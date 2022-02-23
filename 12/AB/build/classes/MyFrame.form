@@ -36,25 +36,39 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="insertButton" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="levelButton" max="32767" attributes="0"/>
+                      <Component id="insertButton" max="32767" attributes="0"/>
+                  </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="nodeField" min="-2" pref="121" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="statusLabel" min="-2" pref="100" max="-2" attributes="0"/>
-                  <EmptySpace pref="155" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="nodeField" pref="121" max="32767" attributes="0"/>
+                      <Component id="levelSpinner" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="statusLabel" min="-2" pref="100" max="-2" attributes="0"/>
+                      <Component id="levelField" min="-2" pref="230" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="14" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="10" max="32767" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="statusLabel" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
-                      <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="insertButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="nodeField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="statusLabel" min="-2" pref="22" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="levelButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="levelSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="levelField" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -82,6 +96,21 @@
         </Component>
         <Component class="javax.swing.JLabel" name="statusLabel">
         </Component>
+        <Component class="javax.swing.JButton" name="levelButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Get nodes from level"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="levelButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JSpinner" name="levelSpinner">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="levelSpinnerKeyReleased"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="levelField">
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="panel">
@@ -99,7 +128,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="419" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="401" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>

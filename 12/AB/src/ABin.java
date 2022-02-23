@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -13,6 +14,50 @@ public class ABin {
     //Constructor
     public ABin() {
         Raiz = null;
+    }
+
+    private int getLevel(NodoB raiz, NodoB n) {
+        if (raiz == null) {
+            return 0;
+        } else if (raiz.dato == n.dato) {
+            return 0;
+        } else if (raiz.dato < n.dato) {
+            return 1 + getLevel(raiz.Hder, n);
+        } else {
+            return 1 + getLevel(raiz.Hizq, n);
+        }
+    }
+
+    public boolean contains(int Elem, NodoB A) {
+        if (A == null) {
+            return false;
+        } else if (A.dato == Elem) {
+            return true;
+        } else if (Elem > A.dato) {
+            return contains(Elem, A.Hder);
+        } else {
+            return contains(Elem, A.Hizq);
+        }
+    }
+
+    public int getLevelOf(NodoB raiz, NodoB node) {
+        if (this.contains(node.dato, raiz)) {
+            return this.getLevel(raiz, node);
+        } else {
+            return -1;
+        }
+    }
+
+    public String getNodesFromLevel(NodoB raiz, NodoB iterator, int level) {
+        if (raiz == null) {
+            return "";
+        } else if (getLevelOf(raiz, iterator) == level) {
+            return iterator.dato+"";
+        } else if (getLevelOf(raiz, iterator) < level) {
+            return "" + getNodesFromLevel(raiz, iterator.Hizq, level) + "->" + getNodesFromLevel(raiz, iterator.Hder, level);
+        } else {
+            return "";
+        }
     }
 
     //Insercion de un elemento en el arbol
@@ -126,12 +171,21 @@ public class ABin {
         MyFrame frame = new MyFrame();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        /**
-         * ABin A = new ABin(); Scanner sc = new Scanner(System.in); int m = 1,
-         * i = 1; while (m == 1) { System.out.print("Digite información numérica
-         * del nodo " + i + ":"); int n = sc.nextInt(); A.insertaNodo(n);
-         * System.out.print("Desea insertar mas nodos?: (1:Si, 2:No: "); m =
-         * sc.nextInt(); i = i + 1; } System.out.print("El recorrido en Preorden
+//        ABin A = new ABin();
+//        Scanner sc = new Scanner(System.in);
+//        int m = 1, i = 1;
+//        while (m == 1) {
+//            System.out.print("Digite información numérica del nodo " + i + ":");
+//            int n = sc.nextInt();
+//            A.insertaNodo(n);
+//            System.out.print("Desea insertar mas nodos?: (1:Si, 2:No: ");
+//            m = sc.nextInt();
+//            i = i + 1;
+//        }
+//        System.out.println("Digite el nivel de los nodos que desea ver");
+//        int a =sc.nextInt();
+//        System.out.println(A.getNodesFromLevel(A.Raiz, A.Raiz, a));
+        /* System.out.print("El recorrido en Preorden
          * es: "); A.preorden(A.Raiz); System.out.println();
          * System.out.print("El recorrido en Inorden es: "); A.inorden(A.Raiz);
          * System.out.println(); System.out.print("El recorrido en Postorden es:
