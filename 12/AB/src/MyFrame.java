@@ -2,6 +2,9 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.util.Timer;
+import java.util.TimerTask;
+import javax.swing.JPanel;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
@@ -24,7 +27,11 @@ public class MyFrame extends javax.swing.JFrame {
     public MyFrame() {
         initComponents();
     }
-    int expansions = 1, firstX = 300, firstY = 20;
+    int firstX = 300, firstY = 20;
+
+    public JPanel getPanel() {
+        return panel;
+    }
 
     /**
      * the following method draws a tree given it's starting position, the root
@@ -51,13 +58,6 @@ public class MyFrame extends javax.swing.JFrame {
             hDer(g, x + space, y + space, x, y, space);
             g.setColor(Color.BLACK);
             drawTree(nodo.der, x + space, y + space, g, space / 2);
-        }
-        if (x >= this.getSize().width - 20) {
-            this.setSize(this.getSize().width + 150, this.getSize().height + 150);
-            space = 140 + 25 * expansions;
-            expansions++;
-            firstX += 100;
-            drawTree(tree.Raiz, firstX, firstY, g, space);
         }
     }
 
@@ -97,7 +97,7 @@ public class MyFrame extends javax.swing.JFrame {
             statusLabel.setText("Status: Dato no aceptado");
             valid = 0;
         }
-        if (tree.contains(Integer.parseInt(data), tree.Raiz)) {
+        if (tree.contains(dataInt, tree.Raiz)) {
             statusLabel.setText("Status: Dato ya existente");
             valid = 0;
         }
@@ -322,8 +322,20 @@ public class MyFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_levelSpinnerKeyReleased
 
     private void destroyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_destroyButtonActionPerformed
-        tree.EliminarArbol();
-        //drawTree(tree.Raiz, firstX, firstY, panel.getGraphics(), 150);
+        final Timer timer = new Timer();
+        if (tree.Raiz != null) {
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+                    tree.EliminarHoja();
+                    panel.revalidate();
+                    drawTree(tree.Raiz, firstX, firstY, panel.getGraphics(), 150);
+                }
+            };
+            timer.schedule(task, 0, 1500);
+        } else {
+            statusLabel.setText("Status: Eror, no existe arbol");
+        }
     }//GEN-LAST:event_destroyButtonActionPerformed
 
     private void uncleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uncleButtonActionPerformed

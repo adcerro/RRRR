@@ -1,4 +1,5 @@
 
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Timer;
@@ -66,16 +67,18 @@ public class ABin {
             Raiz.insertar(Elem);
         }
     }
-    Timer timer;
+    Timer timer = new Timer();
 
     public void EliminarArbol() {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                EliminarHoja();
+                //EliminarHoja();
+                frame.getPanel().repaint();
+                //frame.drawTree(Raiz, 300, 20, frame.getPanel().getGraphics(), 150);
             }
         };
-        timer.schedule(task, 0, 1000);
+        timer.schedule(task, 0, 1500);
     }
 
     public void EliminarHoja() {
@@ -128,9 +131,10 @@ public class ABin {
         }
     }
 
-    //cantidad de nodos completos que posee el arbol	
+    static MyFrame frame = new MyFrame();
+
+    ;
     public static void main(String[] args) {
-        MyFrame frame = new MyFrame();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
