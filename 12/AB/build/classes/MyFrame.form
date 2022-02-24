@@ -113,7 +113,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="nodeField">
           <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="Type a number here"/>
+            <Property name="toolTipText" type="java.lang.String" value="Digite un n&#xfa;mero aqui"/>
           </Properties>
           <Events>
             <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="nodeFieldKeyReleased"/>
@@ -122,7 +122,6 @@
         <Component class="javax.swing.JLabel" name="statusLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Status:"/>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="levelButton">
@@ -135,7 +134,7 @@
         </Component>
         <Component class="javax.swing.JSpinner" name="levelSpinner">
           <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="Please, pick a level from the tree (starting from 0)"/>
+            <Property name="toolTipText" type="java.lang.String" value="Elija un nivel del arbol (Empezando desde 0)"/>
           </Properties>
           <Events>
             <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="levelSpinnerKeyReleased"/>
@@ -161,6 +160,9 @@
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="uncleField">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Digite el dato del nodo cuyo tio desea encontrar"/>
+          </Properties>
           <Events>
             <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="uncleFieldKeyReleased"/>
           </Events>

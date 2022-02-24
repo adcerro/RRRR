@@ -175,7 +175,7 @@ public class MyFrame extends javax.swing.JFrame {
             }
         });
 
-        nodeField.setToolTipText("Type a number here");
+        nodeField.setToolTipText("Digite un número aqui");
         nodeField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 nodeFieldKeyReleased(evt);
@@ -183,7 +183,6 @@ public class MyFrame extends javax.swing.JFrame {
         });
 
         statusLabel.setText("Status:");
-        statusLabel.setToolTipText("");
 
         levelButton.setText("Obtener nodos del nivel");
         levelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -192,7 +191,7 @@ public class MyFrame extends javax.swing.JFrame {
             }
         });
 
-        levelSpinner.setToolTipText("Please, pick a level from the tree (starting from 0)");
+        levelSpinner.setToolTipText("Elija un nivel del arbol (Empezando desde 0)");
         levelSpinner.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 levelSpinnerKeyReleased(evt);
@@ -214,6 +213,7 @@ public class MyFrame extends javax.swing.JFrame {
             }
         });
 
+        uncleField.setToolTipText("Digite el dato del nodo cuyo tio desea encontrar");
         uncleField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 uncleFieldKeyReleased(evt);
@@ -331,6 +331,7 @@ public class MyFrame extends javax.swing.JFrame {
         } else {
             statusLabel.setText("Status: Error, no existe arbol");
         }
+        statusLabel.setText("Status: Eliminado");
     }//GEN-LAST:event_destroyButtonActionPerformed
 
     private void uncleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uncleButtonActionPerformed
