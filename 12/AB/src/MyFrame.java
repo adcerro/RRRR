@@ -2,10 +2,8 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 import javax.swing.JPanel;
-import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
 /*
@@ -13,13 +11,9 @@ import javax.swing.SpinnerNumberModel;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/**
- *
- * @author adcerro
- */
 public class MyFrame extends javax.swing.JFrame {
 
-    private ABin tree = new ABin();
+    ABin tree = new ABin();
 
     /**
      * Creates new form MyFrame
@@ -108,21 +102,16 @@ public class MyFrame extends javax.swing.JFrame {
         }
     }
 
-    public void stringToList(String str) {
-        ListaEnlazada list = new ListaEnlazada();
-        String[] vec = str.split("->");
-        for (int i = 0; i < vec.length; i++) {
-            list.insertarNodo(Integer.parseInt(vec[i]));
-        }
-    }
-
     public void levelGetter() {
         int level = ((SpinnerNumberModel) levelSpinner.getModel()).getNumber().intValue();
         if (level > tree.altura(tree.Raiz) || level < 0) {
             statusLabel.setText("Status: Nivel inexistente");
+            levelLabel.setText("Lista vacia");
         } else {
-            levelLabel.setText("Lista: " + tree.getNodesFromLevel(tree.Raiz, tree.Raiz, level));
-            stringToList(tree.getNodesFromLevel(tree.Raiz, tree.Raiz, level));
+            ListaEnlazada lis = new ListaEnlazada();
+            tree.createLevelList(tree.Raiz, level, lis);
+            statusLabel.setText("Status: Lista creada");
+            levelLabel.setText(lis.show());
         }
 
     }
@@ -137,14 +126,20 @@ public class MyFrame extends javax.swing.JFrame {
             statusLabel.setText("Status: Dato no aceptado");
             valid = 0;
         }
-        if (!tree.contains(Integer.parseInt(data), tree.Raiz)) {
+        if (!tree.contains(dataInt, tree.Raiz) && valid != 0) {
             statusLabel.setText("Status: Dato inexistente");
+            uncleLabel.setText("");
             valid = 0;
         }
         if (valid != 0) {
-            int elem = tree.buscarTio(dataInt).dato;
-            uncleLabel.setText("Tio: " + elem);
+            if (tree.buscarTio(dataInt) != null) {
+                int elem = tree.buscarTio(dataInt).dato;
+                uncleLabel.setText("Tio: " + elem);
+            } else {
+                uncleLabel.setText("El nodo no tiene tio");
+            }
         }
+
     }
 
     /**
@@ -235,15 +230,12 @@ public class MyFrame extends javax.swing.JFrame {
                     .addComponent(uncleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(levelButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(insertButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(nodeField, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
-                            .addComponent(levelSpinner)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(uncleField)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(nodeField, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                        .addComponent(levelSpinner))
+                    .addComponent(uncleField))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -296,7 +288,8 @@ public class MyFrame extends javax.swing.JFrame {
 
         getContentPane().add(panel, java.awt.BorderLayout.CENTER);
 
-        pack();
+        setSize(new java.awt.Dimension(625, 531));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void insertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertButtonActionPerformed
@@ -321,15 +314,20 @@ public class MyFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_levelSpinnerKeyReleased
     public void paintComponent(Graphics g) {
+        super.paintComponents(g);
         drawTree(tree.Raiz, firstX, firstY, g, 150);
     }
     private void destroyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_destroyButtonActionPerformed
         if (tree.Raiz != null) {
             while (tree.hojas(tree.Raiz) != 0) {
-                panel.repaint();
-                paint(panel.getGraphics());
+                paintComponent(panel.getGraphics());
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (Exception e) {
+                };
                 tree.EliminarHoja();
             }
+            repaint();
         } else {
             statusLabel.setText("Status: Error, no existe arbol");
         }

@@ -1,6 +1,4 @@
-/**
- *@author David
- */
+
 public class NodoLista {
     int Dato;
     NodoLista Link;
@@ -18,13 +16,11 @@ public class NodoLista {
         }
     }
     
-    public void listar(){
-        System.out.print(Dato+" --> ");
+    public String listar(){
         if (Link != null){
-            Link.listar();;
+            return Dato+""+" --> "+Link.listar();
         } else{
-            System.out.print("nulo");
-            System.out.println("");
+            return Dato+""+" --> nulo";
         }
     }
 }

@@ -1,7 +1,4 @@
 
-/**
- *@author David
- */
 public class ListaEnlazada {
 
     NodoLista PTR;
@@ -20,11 +17,11 @@ public class ListaEnlazada {
         }
     }
 
-    public void listar() {
-        if (PTR != null) {
-            PTR.listar();
+    public String show() {
+        if (PTR != null) {            
+            return "Lista: " + PTR.listar();
         } else {
-            System.out.println("No hay nodos en este nivel");
+            return "No hay nodos en este nivel";
         }
     }
 

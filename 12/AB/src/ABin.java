@@ -1,29 +1,27 @@
 
-import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class ABin {
 
-    NodoArbol Padre;
     NodoArbol Raiz;
+    Timer timer;
 
     //Constructor
     public ABin() {
         Raiz = null;
+        timer = new Timer();
     }
-
-    private int getLevel(NodoArbol raiz, NodoArbol n) {
-        if (raiz == null) {
-            return 0;
-        } else if (raiz.dato == n.dato) {
-            return 0;
-        } else if (raiz.dato < n.dato) {
-            return 1 + getLevel(raiz.der, n);
+    
+    public void createLevelList(NodoArbol nodo, int nivel, ListaEnlazada lis) {
+        if (nodo == null) {
+            return;
         } else {
-            return 1 + getLevel(raiz.izq, n);
+            if (nodo.nivel == nivel){
+                lis.insertarNodo(nodo.dato);
+            }
+            createLevelList(nodo.izq, nivel, lis);
+            createLevelList(nodo.der, nivel, lis);
         }
     }
 
@@ -39,26 +37,6 @@ public class ABin {
         }
     }
 
-    public int getLevelOf(NodoArbol raiz, NodoArbol node) {
-        if (this.contains(node.dato, raiz)) {
-            return this.getLevel(raiz, node);
-        } else {
-            return -1;
-        }
-    }
-
-    public String getNodesFromLevel(NodoArbol raiz, NodoArbol iterator, int level) {
-        if (raiz == null) {
-            return "";
-        } else if (getLevelOf(raiz, iterator) == level) {
-            return iterator.dato + "";
-        } else if (getLevelOf(raiz, iterator) < level) {
-            return "" + getNodesFromLevel(raiz, iterator.izq, level) + "->" + getNodesFromLevel(raiz, iterator.der, level);
-        } else {
-            return "";
-        }
-    }
-
     //Insercion de un elemento en el arbol
     public void insertarNodo(int Elem) {
         if (Raiz == null) {
@@ -67,7 +45,6 @@ public class ABin {
             Raiz.insertar(Elem);
         }
     }
-    Timer timer = new Timer();
 
     public void EliminarArbol() {
         TimerTask task = new TimerTask() {
@@ -98,19 +75,6 @@ public class ABin {
         }
     }
 
-    public void CrearLista(NodoArbol nodo, int nivel, ListaEnlazada lis) {
-        if (nodo == null) {
-            return;
-        } else {
-            if (nodo.nivel == nivel) {
-                lis.insertarNodo(nodo.dato);
-            }
-            CrearLista(nodo.izq, nivel, lis);
-            CrearLista(nodo.der, nivel, lis);
-        }
-    }
-
-//cantidad de niveles que posee el arbol
     public int altura(NodoArbol Nodo) {
         if (Nodo == null) {
             return -1;
@@ -118,8 +82,7 @@ public class ABin {
             return 1 + Math.max(altura(Nodo.izq), altura(Nodo.der));
         }
     }
-
-//cantidad de nodos hojas que posee el arbol	
+	
     public int hojas(NodoArbol Nodo) {
         if (Nodo == null) {
             return 0;
@@ -131,10 +94,4 @@ public class ABin {
     }
 
     static MyFrame frame = new MyFrame();
-
-    ;
-    public static void main(String[] args) {
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
 }
