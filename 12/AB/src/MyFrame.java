@@ -134,12 +134,13 @@ public class MyFrame extends javax.swing.JFrame {
         if (valid != 0) {
             if (tree.buscarTio(dataInt) != null) {
                 int elem = tree.buscarTio(dataInt).dato;
+                statusLabel.setText("Status: Tio encontrado");
                 uncleLabel.setText("Tio: " + elem);
             } else {
+                statusLabel.setText("Status: Tio no encontrado");
                 uncleLabel.setText("El nodo no tiene tio");
             }
         }
-
     }
 
     /**
@@ -319,19 +320,29 @@ public class MyFrame extends javax.swing.JFrame {
     }
     private void destroyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_destroyButtonActionPerformed
         if (tree.Raiz != null) {
-            while (tree.hojas(tree.Raiz) != 0) {
-                paintComponent(panel.getGraphics());
-                try {
-                    TimeUnit.SECONDS.sleep(1);
-                } catch (Exception e) {
-                };
-                tree.EliminarHoja();
+            for (int i = tree.altura(tree.Raiz); i >= 0; i--) {
+                ListaEnlazada lis = new ListaEnlazada();
+                tree.createLevelList(tree.Raiz, i, lis);
+                NodoLista p = lis.PTR;
+                while (p != null) {
+                    paintComponent(panel.getGraphics());
+                    try {
+                        TimeUnit.SECONDS.sleep(1);
+                    } catch (Exception e) {
+                    };
+                    tree.eliminarHoja(p.Dato, tree.Raiz);
+                    p = p.Link;
+                }
+
             }
+            tree.EliminarHoja();
+            statusLabel.setText("Status: Eliminado");
             repaint();
         } else {
             statusLabel.setText("Status: Error, no existe arbol");
         }
-        statusLabel.setText("Status: Eliminado");
+        uncleLabel.setText("");
+        levelLabel.setText("");
     }//GEN-LAST:event_destroyButtonActionPerformed
 
     private void uncleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uncleButtonActionPerformed

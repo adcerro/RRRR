@@ -12,17 +12,35 @@ public class ABin {
         Raiz = null;
         timer = new Timer();
     }
-    
+
     public void createLevelList(NodoArbol nodo, int nivel, ListaEnlazada lis) {
         if (nodo == null) {
             return;
         } else {
-            if (nodo.nivel == nivel){
+            if (nodo.nivel == nivel) {
                 lis.insertarNodo(nodo.dato);
             }
             createLevelList(nodo.izq, nivel, lis);
             createLevelList(nodo.der, nivel, lis);
         }
+    }
+
+    public void eliminarHoja(int dato, NodoArbol ar) {
+        NodoArbol der = ar.der;
+        NodoArbol izq = ar.izq;
+        if (der != null || izq != null) {
+            if (der.dato == dato) {
+                der = null;
+                ar.der = null;
+            } else if (izq.dato == dato) {
+                izq = null;
+                ar.izq = null;
+            } else if (ar.dato < dato) {
+                eliminarHoja(dato, der);
+            } else {
+                eliminarHoja(dato, izq);
+            }
+        } 
     }
 
     public boolean contains(int Elem, NodoArbol A) {
@@ -40,7 +58,7 @@ public class ABin {
     //Insercion de un elemento en el arbol
     public void insertarNodo(int Elem) {
         if (Raiz == null) {
-            Raiz = new NodoArbol(Elem, 0, null, null);
+            Raiz = new NodoArbol(Elem, 0, null);
         } else {
             Raiz.insertar(Elem);
         }
@@ -50,8 +68,6 @@ public class ABin {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                frame.getPanel().repaint();
-                frame.drawTree(Raiz, 300, 20, frame.getPanel().getGraphics(), 150);
                 EliminarHoja();
             }
         };
@@ -82,7 +98,7 @@ public class ABin {
             return 1 + Math.max(altura(Nodo.izq), altura(Nodo.der));
         }
     }
-	
+
     public int hojas(NodoArbol Nodo) {
         if (Nodo == null) {
             return 0;
@@ -93,5 +109,9 @@ public class ABin {
         }
     }
 
-    static MyFrame frame = new MyFrame();
+    public static void main(String[] args) {
+        MyFrame frame = new MyFrame();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
 }

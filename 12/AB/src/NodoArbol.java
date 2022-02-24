@@ -5,16 +5,14 @@ public class NodoArbol {
     NodoArbol izq;
     NodoArbol der;
     NodoArbol padre;
-    NodoArbol tio;
     int nivel;
 
-    public NodoArbol(int Dato, int nivel, NodoArbol padre, NodoArbol tio) {
+    public NodoArbol(int Dato, int nivel, NodoArbol padre) {
         this.dato = Dato;
         this.izq = null;
         this.der = null;
         this.nivel = nivel;
         this.padre = padre;
-        this.tio = tio;
     }
 
     public NodoArbol eliminarHoja() {
@@ -22,7 +20,7 @@ public class NodoArbol {
             return null;
         }
         if (izq != null) {
-            izq = izq.eliminarHoja();
+             izq = izq.eliminarHoja();
         }
         if (der != null) {
             der = der.eliminarHoja();
@@ -30,17 +28,18 @@ public class NodoArbol {
         return this;
     }
 
+
     public void insertar(int Dato) {
         if (Dato < dato) {
             if (izq == null) {
-                izq = new NodoArbol(Dato, nivel + 1, this, tio(this));
+                izq = new NodoArbol(Dato, nivel + 1, this);
             } else {
                 izq.insertar(Dato);
             }
         } else {
             if (Dato > dato) {
                 if (der == null) {
-                    der = new NodoArbol(Dato, nivel + 1, this, tio(this));
+                    der = new NodoArbol(Dato, nivel + 1, this);
                 } else {
                     der.insertar(Dato);
                 }
@@ -50,16 +49,17 @@ public class NodoArbol {
         }
     }
 
-    public NodoArbol tio(NodoArbol nodo) {
-        if (nodo.padre != null) {
-            if (nodo.padre.izq == nodo) {
-                return nodo.padre.der;
-            } else {
-                return nodo.padre.izq;
-            }
-        } else {
-            return null;
-        }
+    public NodoArbol tio() {
+        if (padre != null) {
+            if (padre.padre != null){
+                if (padre.padre.izq == padre) {
+                    return padre.padre.der;
+                } else {
+                    return padre.padre.izq;
+                }
+            } 
+        } 
+        return null;
     }
 
     public NodoArbol buscar(int Dato) {
@@ -76,7 +76,7 @@ public class NodoArbol {
                 return null;
             }
         } else {
-            return tio;
+            return tio();
         }
     }
 }
