@@ -330,12 +330,10 @@ public class MyFrame extends javax.swing.JFrame {
                         TimeUnit.SECONDS.sleep(1);
                     } catch (Exception e) {
                     };
-                    tree.eliminarHoja(p.Dato, tree.Raiz);
+                    tree.eliminarNodoHoja(p.Dato, tree.Raiz, tree);
                     p = p.Link;
                 }
-
             }
-            tree.EliminarHoja();
             statusLabel.setText("Status: Eliminado");
             repaint();
         } else {

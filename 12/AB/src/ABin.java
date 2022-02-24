@@ -25,22 +25,24 @@ public class ABin {
         }
     }
 
-    public void eliminarHoja(int dato, NodoArbol ar) {
-        NodoArbol der = ar.der;
-        NodoArbol izq = ar.izq;
-        if (der != null || izq != null) {
+    public void eliminarNodoHoja(int dato, NodoArbol iterator, ABin tree) {
+        NodoArbol der = iterator.der;
+        NodoArbol izq = iterator.izq;
+        if (tree.Raiz.dato == dato) {
+            tree.Raiz = null;
+        } else {
             if (der.dato == dato) {
                 der = null;
-                ar.der = null;
+                iterator.der = null;
             } else if (izq.dato == dato) {
                 izq = null;
-                ar.izq = null;
-            } else if (ar.dato < dato) {
-                eliminarHoja(dato, der);
+                iterator.izq = null;
+            } else if (iterator.dato < dato) {
+                eliminarNodoHoja(dato, der, tree);
             } else {
-                eliminarHoja(dato, izq);
+                eliminarNodoHoja(dato, izq, tree);
             }
-        } 
+        }
     }
 
     public boolean contains(int Elem, NodoArbol A) {
