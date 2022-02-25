@@ -31,10 +31,10 @@ public class ABin {
         if (tree.Raiz.dato == dato) {
             tree.Raiz = null;
         } else {
-            if (der.dato == dato) {
+            if (der != null && der.dato == dato) {
                 der = null;
                 iterator.der = null;
-            } else if (izq.dato == dato) {
+            } else if (izq != null && izq.dato == dato) {
                 izq = null;
                 iterator.izq = null;
             } else if (iterator.dato < dato) {
@@ -70,6 +70,7 @@ public class ABin {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
+
                 EliminarHoja();
             }
         };
@@ -80,6 +81,7 @@ public class ABin {
         if (Raiz == null) {
             timer.cancel();
         } else {
+
             Raiz = Raiz.eliminarHoja();
             System.out.println("Hoja eliminada");
         }
