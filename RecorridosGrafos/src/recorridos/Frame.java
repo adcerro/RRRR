@@ -45,7 +45,6 @@ public class Frame extends javax.swing.JFrame {
         matText = new javax.swing.JTextArea();
         showButton = new javax.swing.JButton();
         startField = new javax.swing.JTextField();
-        graphPane = new javax.swing.JPanel();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         backPane = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -138,19 +137,6 @@ public class Frame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Generar Matriz de adyacencia", generatePane);
 
-        javax.swing.GroupLayout graphPaneLayout = new javax.swing.GroupLayout(graphPane);
-        graphPane.setLayout(graphPaneLayout);
-        graphPaneLayout.setHorizontalGroup(
-            graphPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 512, Short.MAX_VALUE)
-        );
-        graphPaneLayout.setVerticalGroup(
-            graphPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Graficar a partir de matriz", graphPane);
-
         getContentPane().add(jTabbedPane1, java.awt.BorderLayout.SOUTH);
         jTabbedPane1.getAccessibleContext().setAccessibleName("");
 
@@ -212,9 +198,9 @@ public class Frame extends javax.swing.JFrame {
         }
         if (list.contains(a) && list.contains(b) && valid) {
             Graphics g = drawPane.getGraphics();
-            int xposa = list.get(a).posX;
+            int xposa = list.get(a).posX+5;
             int yposa = list.get(a).posY;
-            int xposb = list.get(b).posX;
+            int xposb = list.get(b).posX+5;
             int yposb = list.get(b).posY;
             g.setColor(Color.blue);
             g.drawLine(xposa, yposa, xposb, yposb);
@@ -309,7 +295,6 @@ public class Frame extends javax.swing.JFrame {
     private javax.swing.JPanel backPane;
     private javax.swing.JPanel drawPane;
     private javax.swing.JPanel generatePane;
-    private javax.swing.JPanel graphPane;
     private javax.swing.JButton insertButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
