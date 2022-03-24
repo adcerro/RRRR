@@ -30,6 +30,7 @@ public class Metodos {
 
     /**
      * @author kdeepsingh2002
+     *https://www.geeksforgeeks.org/implementation-of-dfs-using-adjacency-matrix/
      */
     public void DFS(int vi, int grafo[][]) {
         System.out.print(vi + " ");
