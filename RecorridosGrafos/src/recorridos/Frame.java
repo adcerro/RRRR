@@ -4,6 +4,7 @@
  */
 package recorridos;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,10 +14,10 @@ import java.awt.Graphics2D;
  * @author aland
  */
 public class Frame extends javax.swing.JFrame {
-
+    
     int verNum = 0;
     ListaEnlazada list = new ListaEnlazada();
-    int adyMat[][] = new int[20][20];
+    int adyMat[][] = new int[25][25];
 
     /**
      * Creates new form Frame
@@ -198,12 +199,14 @@ public class Frame extends javax.swing.JFrame {
         }
         if (list.contains(a) && list.contains(b) && valid) {
             Graphics g = drawPane.getGraphics();
-            int xposa = list.get(a).posX+5;
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setStroke(new BasicStroke(2));
+            int xposa = list.get(a).posX + 5;
             int yposa = list.get(a).posY;
-            int xposb = list.get(b).posX+5;
+            int xposb = list.get(b).posX + 5;
             int yposb = list.get(b).posY;
-            g.setColor(Color.blue);
-            g.drawLine(xposa, yposa, xposb, yposb);
+            g2.setColor(Color.blue);
+            g2.drawLine(xposa, yposa, xposb, yposb);
             adyMat[a][b] = 1;
             adyMat[b][a] = 1;
         } else {
@@ -239,7 +242,7 @@ public class Frame extends javax.swing.JFrame {
         } catch (NumberFormatException numberFormatException) {
             valid = false;
         }
-
+        
         if (verNum != 0 && list.contains(startVer) && valid) {
             Metodos met = new Metodos(verNum);
             StringBuffer paths = new StringBuffer();
