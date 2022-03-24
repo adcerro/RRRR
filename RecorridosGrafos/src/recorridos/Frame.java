@@ -44,10 +44,17 @@ public class Frame extends javax.swing.JFrame {
         bPosField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         matButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        matText = new javax.swing.JTextArea();
+        showButton = new javax.swing.JButton();
+        startField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Grafos GUI");
         setPreferredSize(new java.awt.Dimension(520, 500));
         setResizable(false);
+
+        jLayeredPane1.setToolTipText("haz click donde quieras colocar un vertice");
 
         jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -84,10 +91,10 @@ public class Frame extends javax.swing.JFrame {
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 37, Short.MAX_VALUE))
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
         getContentPane().add(jLayeredPane1, java.awt.BorderLayout.CENTER);
@@ -108,6 +115,17 @@ public class Frame extends javax.swing.JFrame {
             }
         });
 
+        matText.setColumns(20);
+        matText.setRows(5);
+        jScrollPane1.setViewportView(matText);
+
+        showButton.setText("Ver Recorridos");
+        showButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -122,28 +140,39 @@ public class Frame extends javax.swing.JFrame {
                             .addComponent(aPosField)
                             .addComponent(bPosField)))
                     .addComponent(jButton1))
-                .addGap(142, 142, 142)
-                .addComponent(matButton)
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(matButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(showButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(startField))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(16, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(aPosField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bPosField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(matButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jButton1)
+                                .addContainerGap(17, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                                    .addComponent(aPosField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(startField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(bPosField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(showButton))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(matButton)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -153,9 +182,16 @@ public class Frame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        int a = Integer.parseInt(aPosField.getText());
-        int b = Integer.parseInt(bPosField.getText());
-        if (list.contains(a) && list.contains(b)) {
+        int a = 0;
+        int b = 0;
+        boolean valid = true;
+        try {
+            a = Integer.parseInt(aPosField.getText());
+            b = Integer.parseInt(bPosField.getText());
+        } catch (NumberFormatException numberFormatException) {
+            valid = false;
+        }
+        if (list.contains(a) && list.contains(b) && valid) {
             Graphics g = jPanel2.getGraphics();
             int xposa = list.get(a).posX;
             int yposa = list.get(a).posY;
@@ -166,7 +202,7 @@ public class Frame extends javax.swing.JFrame {
             adyMat[a][b] = 1;
             adyMat[b][a] = 1;
         } else {
-            System.out.println("Error");
+            matText.setText("Error");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -181,13 +217,37 @@ public class Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel3MouseClicked
 
     private void matButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matButtonActionPerformed
+        matText.setText("");
         for (int i = 0; i < verNum; i++) {
             for (int j = 0; j < verNum; j++) {
-                System.out.print(adyMat[i][j]+" ");
+                matText.setText(matText.getText() + adyMat[i][j] + " ");
             }
-            System.out.println(" ");
+            matText.setText(matText.getText() + "\n");
         }
     }//GEN-LAST:event_matButtonActionPerformed
+
+    private void showButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showButtonActionPerformed
+        int startVer = 0;
+        boolean valid = true;
+        try {
+            startVer = Integer.parseInt(startField.getText());
+        } catch (NumberFormatException numberFormatException) {
+            valid = false;
+        }
+
+        if (verNum != 0 && list.contains(startVer) && valid) {
+            Metodos met = new Metodos(verNum);
+            StringBuffer paths = new StringBuffer();
+            paths.append("BFS: \n");
+            met.BFS(startVer, adyMat, paths);
+            matText.setText(paths.toString());
+            paths.append("\nDFS: \n");
+            met.DFS(startVer, adyMat, paths);
+            matText.setText(paths.toString());
+        } else {
+            matText.setText("Error");
+        }
+    }//GEN-LAST:event_showButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -234,6 +294,10 @@ public class Frame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton matButton;
+    private javax.swing.JTextArea matText;
+    private javax.swing.JButton showButton;
+    private javax.swing.JTextField startField;
     // End of variables declaration//GEN-END:variables
 }

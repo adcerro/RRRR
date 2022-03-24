@@ -41,6 +41,16 @@ public class Metodos {
         }
     }
 
+    public void DFS(int vi, int grafo[][], StringBuffer s) {
+        s.append(vi + " ");
+        visitadosD[vi] = true;
+        for (int i = 0; i < grafo[vi].length; i++) {
+            if (grafo[vi][i] == 1 && (!visitadosD[i])) {
+                DFS(i, grafo, s);
+            }
+        }
+    }
+
     public void BFS(int vi, int grafo[][]) {
         int v;
         boolean visitados[] = new boolean[grafo.length];
@@ -51,6 +61,27 @@ public class Metodos {
             v = cola.remove();
 
             System.out.print(v + " ");
+            for (int i = 0; i < grafo.length; i++) {
+                if (grafo[v][i] == 1) {
+                    if (!visitados[i]) {
+                        visitados[i] = true;
+                        cola.add(i);
+                    }
+                }
+            }
+        }
+    }
+
+    public void BFS(int vi, int grafo[][], StringBuffer s) {
+        int v;
+        boolean visitados[] = new boolean[grafo.length];
+        Queue<Integer> cola = new LinkedList();
+        visitados[vi] = true;
+        cola.add(vi);
+        while (!cola.isEmpty()) {
+            v = cola.remove();
+
+            s.append(v + " ");
             for (int i = 0; i < grafo.length; i++) {
                 if (grafo[v][i] == 1) {
                     if (!visitados[i]) {
